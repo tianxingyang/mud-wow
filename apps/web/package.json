@@ -1,0 +1,17 @@
+{
+  "name": "@mud-wow/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predev": "npm run build --workspace=@mud-wow/protocol",
+    "dev": "vite",
+    "build": "tsc -b tsconfig.json && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mud-wow/protocol": "0.0.0",
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
+  }
+}
