@@ -10,13 +10,25 @@
 
 ## 1. 当前判断
 
-### 1.1 起点
+### 1.1 当前进度
 
-计划建立时，仓库已经拥有冻结的产品、玩法、架构和验收文档，但尚无源码、包配置、数据库迁移、自动化测试或 CI。开发必须先建立可重复运行的工程基座，再进入玩法实现。
+> 同步基线：`main@b109146`（M0 workspace 脚手架合入点）
 
-开始工程脚手架前，应先把当前设计包、文档重组和本计划保存为一个独立的文档基线提交。后续工程提交不得同时夹带大规模设计文档搬迁，以便审查规则变化与代码变化。
+| 范围 | 状态 | 已落地证据 | 下一门槛 |
+|---|---|---|---|
+| 北郡 V1 | 当前执行；玩法与验收设计已冻结 | [`northshire-v1/00`–`07`](./northshire-v1/README.md) | 按 M0–M7 依次满足工程门禁与验收 |
+| M0 | **进行中** | backlog #1–#2；[npm workspace](../package.json)、固定 [Node](../.nvmrc)／[lockfile](../package-lock.json)、server／web／protocol 独立构建，以及基础 [CI](../.github/workflows/ci.yml) | backlog #3：PostgreSQL Compose、首条迁移与 liveness／readiness |
+| M1–M7 | 未开始 | — | 先满足前一里程碑退出门槛 |
 
-### 1.2 关键决定
+M0 尚未达到退出门槛：数据库与 readiness、Protocol／Content Schema、FakeClock／RandomSource、完整导入边界和架构契约测试仍待实现。脚手架合入不代表 M0 完成。
+
+### 1.2 起点
+
+计划建立时，仓库已经拥有冻结的产品、玩法、架构和验收文档，但尚无源码、包配置、数据库迁移、自动化测试或 CI。这是计划起点，不是当前状态；实时工程进度以 §1.1 和 §12 为准。
+
+工程脚手架开始前，当前设计包、文档重组和本计划已由 `4f00d10` 保存为独立文档基线。后续工程提交不得同时夹带大规模设计文档搬迁，以便审查规则变化与代码变化。
+
+### 1.3 关键决定
 
 | 主题 | 当前决定 |
 |---|---|
@@ -401,6 +413,8 @@ M0 工程基座
 
 ### M0：工程与设计基线
 
+> 当前状态：**进行中**。backlog #1–#2 已完成，并已建立基础 format／lint／typecheck／test／CI；以下交付与退出门槛仍按完整 M0 口径验收。
+
 交付：
 
 - 独立文档基线提交；
@@ -672,18 +686,20 @@ Bug 修复流程：最小复现 → 确认状态所有者／故障窗口 → 修
 
 ## 12. 首批可执行 backlog
 
-1. 保存独立文档基线提交，并确认 Markdown 链接与行尾策略；
-2. 建立 npm workspace、固定 Node／lockfile、server／web／protocol 构建；
-3. 建立 PostgreSQL Compose、第一条迁移、liveness／readiness；
-4. 建立 Protocol 与 Content Schema、稳定 ID 和 `content_version`；
-5. 建立 Kernel、FakeClock、RandomSource 和模块导入边界；
-6. 实现 command registry、actor scope、Idempotency Store 和 scope runtime；
-7. 实现预置账号、角色创建、唯一 CharacterState 和控制权接管；
-8. 用真实 Web 客户端跑通 `look → go → reconnect`；
-9. 转录 #783／#7 所需真实内容和 11 个房间，跑通结构／引用校验与导航；
-10. 实现 #783 的非战斗任务纵切；
-11. 实现 Vermin／#7 的首条确定性战斗与奖励纵切；
-12. 在扩充其余内容前，先通过“奖励已提交但响应丢失”和“延迟奖励不得覆盖当前 CharacterState”两条 P0 故障测试；
-13. 补齐完整 V1 内容清单，正式启用 `NS-CONTENT-01` 精确数量／ID 门禁，再进入 M4 的完整运行行为。
+1. [x] 保存独立文档基线提交，并确认 Markdown 链接与行尾策略（`4f00d10` 文档基线；`.gitattributes` 固定行尾）；
+2. [x] 建立 npm workspace、固定 Node／lockfile、server／web／protocol 构建（`b109146` workspace 脚手架）；
+3. [ ] 建立 PostgreSQL Compose、第一条迁移、liveness／readiness；
+4. [ ] 建立 Protocol 与 Content Schema、稳定 ID 和 `content_version`；
+5. [ ] 建立 Kernel、FakeClock、RandomSource 和模块导入边界；
+6. [ ] 实现 command registry、actor scope、Idempotency Store 和 scope runtime；
+7. [ ] 实现预置账号、角色创建、唯一 CharacterState 和控制权接管；
+8. [ ] 用真实 Web 客户端跑通 `look → go → reconnect`；
+9. [ ] 转录 #783／#7 所需真实内容和 11 个房间，跑通结构／引用校验与导航；
+10. [ ] 实现 #783 的非战斗任务纵切；
+11. [ ] 实现 Vermin／#7 的首条确定性战斗与奖励纵切；
+12. [ ] 在扩充其余内容前，先通过“奖励已提交但响应丢失”和“延迟奖励不得覆盖当前 CharacterState”两条 P0 故障测试；
+13. [ ] 补齐完整 V1 内容清单，正式启用 `NS-CONTENT-01` 精确数量／ID 门禁，再进入 M4 的完整运行行为。
+
+backlog 勾选只表示对应单项已经落地；M0 是否完成仍以 §6 的 M0 退出门槛为准。
 
 完成第 11–12 项后，使用真实 issue 周期、测试耗时和缺陷密度估算 M4–M7；在此之前不承诺缺少依据的日历日期。
