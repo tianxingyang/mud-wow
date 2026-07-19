@@ -173,7 +173,7 @@ The People's Militia #12
 
 ## 6. 死亡矿井核对表
 
-> 本节记录原版路线与内容事实；Boss 的文字化战斗规则见 [Vanilla WoW 文字 MUD：战斗系统设计规范](./vanilla-wow-text-mud-combat-design.md)。
+> 本节记录原版路线与内容事实；Boss 的文字化战斗规则见 [Vanilla WoW 文字 MUD：战斗系统设计规范](../combat-system.md)。
 
 ### 6.1 入口
 
