@@ -18,6 +18,24 @@ jobs:
     name: Format, lint, test, build
     runs-on: ubuntu-24.04
     timeout-minutes: 10
+    env:
+      DATABASE_URL: postgresql://mud_wow:mud_wow_ci@localhost:5432/mud_wow
+      RUN_DATABASE_INTEGRATION: "1"
+
+    services:
+      postgres:
+        image: postgres:18.4-alpine3.24
+        env:
+          POSTGRES_DB: mud_wow
+          POSTGRES_USER: mud_wow
+          POSTGRES_PASSWORD: mud_wow_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U mud_wow -d mud_wow"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
 
     steps:
       - name: Checkout
@@ -33,6 +51,11 @@ jobs:
 
       - name: Install
         run: npm ci
+
+      - name: Migrate empty database
+        run: |
+          npm run db:migrate
+          npm run db:migrate
 
       - name: Check formatting
         run: npm run format:check

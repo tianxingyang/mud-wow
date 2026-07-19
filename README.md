@@ -9,8 +9,26 @@
 - 首个交付目标是北郡 1–5 级垂直切片。
 - 服务端采用 Node.js + TypeScript 模块化单体，使用 PostgreSQL 持久化，并通过 HTTP + WebSocket 服务多个玩家。
 - 北郡 v1 的玩法和验收规则已经冻结，具体实现只以 [北郡 v1 设计包](docs/northshire-v1/README.md) 为准。
-- 工程实现处于 M0 工程与设计基线阶段：npm workspace、固定 Node／lockfile、server／web／protocol 构建和基础 format／lint／typecheck／test／CI 已落地；下一项是 PostgreSQL Compose、首条迁移与 liveness／readiness，详见 [开发计划当前进度](docs/development-plan.md#11-当前进度)。
+- 工程实现处于 M0 工程与设计基线阶段：workspace、基础 CI、PostgreSQL Compose、首条版本化迁移和 liveness／readiness 已落地；下一项是 Protocol／Content Schema、稳定 ID 与 `content_version`，详见[开发计划当前进度](docs/development-plan.md#11-当前进度)。
 - 研究资料和通用设计提供背景与后续方向，不会被北郡 v1 隐式继承，详见 [00 §3.1](docs/northshire-v1/00-slice-contract.md)。
+
+## 本地工程运行
+
+本地应用进程直接运行在 Node.js 中，Docker Compose 只提供 PostgreSQL：
+
+```powershell
+Copy-Item .env.example .env
+docker compose up -d --wait postgres
+npm run db:migrate
+npm run start:server
+```
+
+服务默认监听 `http://127.0.0.1:3000`：
+
+- `GET /health/live` 只判断应用进程能否响应；
+- `GET /health/ready` 检查 PostgreSQL 连接和当前 migration 是否兼容，未就绪时返回 `503`。内容加载门禁将在 M0 backlog #4 接入同一 readiness 契约。
+
+`npm run db:migrate` 可重复执行；没有待执行 migration 时不会重复修改数据库。开发结束后使用 `docker compose down` 停止本地 PostgreSQL，命名卷会保留数据。
 
 ## 文档入口
 

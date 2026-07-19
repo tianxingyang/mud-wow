@@ -12,15 +12,15 @@
 
 ### 1.1 当前进度
 
-> 同步基线：`main@b109146`（M0 workspace 脚手架合入点）
+> 同步基线：`main@3230a0f`（M0 backlog #1–#2 进度同步点）
 
 | 范围 | 状态 | 已落地证据 | 下一门槛 |
 |---|---|---|---|
 | 北郡 V1 | 当前执行；玩法与验收设计已冻结 | [`northshire-v1/00`–`07`](./northshire-v1/README.md) | 按 M0–M7 依次满足工程门禁与验收 |
-| M0 | **进行中** | backlog #1–#2；[npm workspace](../package.json)、固定 [Node](../.nvmrc)／[lockfile](../package-lock.json)、server／web／protocol 独立构建，以及基础 [CI](../.github/workflows/ci.yml) | backlog #3：PostgreSQL Compose、首条迁移与 liveness／readiness |
+| M0 | **进行中** | backlog #1–#3；[npm workspace](../package.json)、基础 [CI](../.github/workflows/ci.yml)、[PostgreSQL Compose](../compose.yaml)、[首条 migration](../apps/server/migrations/0001_database_baseline.sql) 与 [liveness／readiness](../apps/server/src/gateway/http/create-app.ts) | backlog #4：Protocol／Content Schema、稳定 ID 和 `content_version` |
 | M1–M7 | 未开始 | — | 先满足前一里程碑退出门槛 |
 
-M0 尚未达到退出门槛：数据库与 readiness、Protocol／Content Schema、FakeClock／RandomSource、完整导入边界和架构契约测试仍待实现。脚手架合入不代表 M0 完成。
+M0 尚未达到退出门槛：当前 readiness 只接入数据库连接与 migration 兼容门禁；Protocol／Content Schema、内容加载门禁、FakeClock／RandomSource、完整导入边界和架构契约测试仍待实现。backlog #3 完成不代表 M0 完成。
 
 ### 1.2 起点
 
@@ -413,7 +413,7 @@ M0 工程基座
 
 ### M0：工程与设计基线
 
-> 当前状态：**进行中**。backlog #1–#2 已完成，并已建立基础 format／lint／typecheck／test／CI；以下交付与退出门槛仍按完整 M0 口径验收。
+> 当前状态：**进行中**。backlog #1–#3 已完成，并已建立基础 format／lint／typecheck／test／CI、PostgreSQL 空库迁移与数据库 readiness；以下交付与退出门槛仍按完整 M0 口径验收。
 
 交付：
 
@@ -688,7 +688,7 @@ Bug 修复流程：最小复现 → 确认状态所有者／故障窗口 → 修
 
 1. [x] 保存独立文档基线提交，并确认 Markdown 链接与行尾策略（`4f00d10` 文档基线；`.gitattributes` 固定行尾）；
 2. [x] 建立 npm workspace、固定 Node／lockfile、server／web／protocol 构建（`b109146` workspace 脚手架）；
-3. [ ] 建立 PostgreSQL Compose、第一条迁移、liveness／readiness；
+3. [x] 建立 PostgreSQL Compose、第一条迁移、liveness／readiness（[`compose.yaml`](../compose.yaml)、[`0001_database_baseline.sql`](../apps/server/migrations/0001_database_baseline.sql)、[`create-app.ts`](../apps/server/src/gateway/http/create-app.ts)）；
 4. [ ] 建立 Protocol 与 Content Schema、稳定 ID 和 `content_version`；
 5. [ ] 建立 Kernel、FakeClock、RandomSource 和模块导入边界；
 6. [ ] 实现 command registry、actor scope、Idempotency Store 和 scope runtime；
