@@ -35,7 +35,7 @@
 - Fastify 作为 HTTP/WebSocket 接入层
 - Zod 或等价方案校验网络协议与内容数据
 - Vitest 作为规则与集成测试工具
-- pnpm 管理依赖与工作区
+- npm workspaces 与单一 lockfile 管理依赖与工作区
 
 这些库不是架构承诺。替换它们不应改变模块边界、权威状态模型或一致性规则。
 

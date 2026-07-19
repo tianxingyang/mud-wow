@@ -1,0 +1,13 @@
+{
+  "name": "@mud-wow/server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -b tsconfig.json"
+  },
+  "dependencies": {
+    "@mud-wow/protocol": "0.0.0"
+  }
+}
