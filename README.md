@@ -9,6 +9,7 @@
 - 首个交付目标是北郡 1–5 级垂直切片。
 - 服务端采用 Node.js + TypeScript 模块化单体，使用 PostgreSQL 持久化，并通过 HTTP + WebSocket 服务多个玩家。
 - 北郡 v1 的玩法和验收规则已经冻结，具体实现只以 [北郡 v1 设计包](docs/northshire-v1/README.md) 为准。
+- 工程实现处于 M0 工程与设计基线阶段：npm workspace、固定 Node／lockfile、server／web／protocol 构建和基础 format／lint／typecheck／test／CI 已落地；下一项是 PostgreSQL Compose、首条迁移与 liveness／readiness，详见 [开发计划当前进度](docs/development-plan.md#11-当前进度)。
 - 研究资料和通用设计提供背景与后续方向，不会被北郡 v1 隐式继承，详见 [00 §3.1](docs/northshire-v1/00-slice-contract.md)。
 
 ## 文档入口
