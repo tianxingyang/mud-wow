@@ -1,8 +1,14 @@
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
 export interface ServerConfig {
   readonly databaseUrl: string;
+  readonly contentPath: string;
   readonly host: string;
   readonly port: number;
 }
+
+const repositoryRoot = fileURLToPath(new URL("../../..", import.meta.url));
 
 function parsePort(value: string): number {
   const port = Number(value);
@@ -23,6 +29,10 @@ export function loadServerConfig(environment: NodeJS.ProcessEnv = process.env): 
 
   return {
     databaseUrl,
+    contentPath: resolve(
+      repositoryRoot,
+      environment.CONTENT_PATH ?? "content/northshire-v1/manifest.json",
+    ),
     host: environment.HOST ?? "127.0.0.1",
     port: parsePort(environment.PORT ?? "3000"),
   };
