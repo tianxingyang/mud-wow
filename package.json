@@ -19,6 +19,8 @@
     "build:protocol": "npm run build --workspace=@mud-wow/protocol",
     "build:server": "npm run build --workspace=@mud-wow/server",
     "build:web": "npm run build --workspace=@mud-wow/web",
+    "preboundaries": "npm run build:protocol",
+    "boundaries": "dependency-cruiser --config .dependency-cruiser.cjs apps/server/src apps/web/src packages/protocol/src",
     "db:migrate": "node --env-file-if-exists=.env ./node_modules/node-pg-migrate/bin/node-pg-migrate.js up --migrations-dir=apps/server/migrations --migrations-table=mud_wow_migrations --no-verbose",
     "db:migrate:create": "node --env-file-if-exists=.env ./node_modules/node-pg-migrate/bin/node-pg-migrate.js create --migrations-dir=apps/server/migrations --migrations-table=mud_wow_migrations --migration-filename-format=index --migration-file-language=sql",
     "format": "prettier --write .",
@@ -26,7 +28,7 @@
     "lint": "eslint . --max-warnings=0",
     "start:server": "npm run build:protocol && npm run build:server && npm run start --workspace=@mud-wow/server",
     "test": "tsc -p tsconfig.test.json && vitest run",
-    "check": "npm run format:check && npm run lint && npm test && npm run build"
+    "check": "npm run format:check && npm run lint && npm run boundaries && npm test && npm run build"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
@@ -34,6 +36,7 @@
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.3",
+    "dependency-cruiser": "18.1.0",
     "eslint": "10.7.0",
     "globals": "17.7.0",
     "node-pg-migrate": "9.0.0",
