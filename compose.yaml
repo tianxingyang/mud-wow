@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:18.4-alpine3.24
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-mud_wow}
+      POSTGRES_USER: ${POSTGRES_USER:-mud_wow}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mud_wow_local}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    shm_size: 128mb
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+volumes:
+  postgres_data:
