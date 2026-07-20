@@ -9,7 +9,7 @@
 - 首个交付目标是北郡 1–5 级垂直切片。
 - 服务端采用 Node.js + TypeScript 模块化单体，使用 PostgreSQL 持久化，并通过 HTTP + WebSocket 服务多个玩家。
 - 北郡 v1 的玩法和验收规则已经冻结，具体实现只以 [北郡 v1 设计包](docs/northshire-v1/README.md) 为准。
-- 工程实现处于 M0 工程与设计基线阶段：workspace、基础 CI、PostgreSQL Compose、首条版本化迁移和 liveness／readiness 已落地；下一项是 Protocol／Content Schema、稳定 ID 与 `content_version`，详见[开发计划当前进度](docs/development-plan.md#11-当前进度)。
+- 工程实现处于 M0 工程与设计基线阶段：workspace、基础 CI、PostgreSQL Compose、数据库门禁、Protocol／Content Schema、稳定 ID 与 `content_version` 已落地；下一项是 Kernel、FakeClock、RandomSource 和模块导入边界，详见[开发计划当前进度](docs/development-plan.md#11-当前进度)。
 - 研究资料和通用设计提供背景与后续方向，不会被北郡 v1 隐式继承，详见 [00 §3.1](docs/northshire-v1/00-slice-contract.md)。
 
 ## 本地工程运行
@@ -26,7 +26,9 @@ npm run start:server
 服务默认监听 `http://127.0.0.1:3000`：
 
 - `GET /health/live` 只判断应用进程能否响应；
-- `GET /health/ready` 检查 PostgreSQL 连接和当前 migration 是否兼容，未就绪时返回 `503`。内容加载门禁将在 M0 backlog #4 接入同一 readiness 契约。
+- `GET /health/ready` 检查 PostgreSQL 连接、当前 migration 兼容性，以及内容 manifest 的加载与 Schema 校验，任一门禁未通过时返回 `503`。
+
+当前 [`content/northshire-v1/manifest.json`](content/northshire-v1/manifest.json) 只是 M0 的内容 Schema 与加载门禁脚手架，`records` 仍为空；它不代表真实北郡内容已经转录，也不代表 `NS-CONTENT-01` 已通过。
 
 `npm run db:migrate` 可重复执行；没有待执行 migration 时不会重复修改数据库。开发结束后使用 `docker compose down` 停止本地 PostgreSQL，命名卷会保留数据。
 

@@ -1,1 +1,5 @@
-export const PROTOCOL_VERSION = 1;
+export {
+  commandEnvelopeSchema,
+  PROTOCOL_VERSION,
+  type CommandEnvelope,
+} from "./command-envelope.js";
