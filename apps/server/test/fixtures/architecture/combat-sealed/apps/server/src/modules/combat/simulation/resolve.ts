@@ -1,0 +1,1 @@
+export const simulationValue = "simulation";

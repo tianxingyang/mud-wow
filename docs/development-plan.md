@@ -12,15 +12,15 @@
 
 ### 1.1 当前进度
 
-> 工作分支起点：`main@8de2dfb`（M0 backlog #1–#3 合入点；本变更交付 backlog #4）
+> 工作分支起点：`agent/m0-protocol-content-schema@1033dcb`（backlog #4 实现；本变更交付 backlog #5）
 
 | 范围 | 状态 | 已落地证据 | 下一门槛 |
 |---|---|---|---|
 | 北郡 V1 | 当前执行；玩法与验收设计已冻结 | [`northshire-v1/00`–`07`](./northshire-v1/README.md) | 按 M0–M7 依次满足工程门禁与验收 |
-| M0 | **进行中** | backlog #1–#4；[npm workspace](../package.json)、基础 [CI](../.github/workflows/ci.yml)、[PostgreSQL Compose](../compose.yaml)、[首条 migration](../apps/server/migrations/0001_database_baseline.sql)、[Protocol Schema](../packages/protocol/src/command-envelope.ts)、[Content Schema](../apps/server/src/infrastructure/content/schema.ts)／[加载](../apps/server/src/infrastructure/content/load-content.ts) 与组合 [readiness](../apps/server/src/composition-root.ts) | backlog #5：Kernel、FakeClock、RandomSource 和模块导入边界 |
+| M0 | **进行中** | backlog #1–#5；[npm workspace](../package.json)、基础 [CI](../.github/workflows/ci.yml)、[PostgreSQL Compose](../compose.yaml)、[首条 migration](../apps/server/migrations/0001_database_baseline.sql)、[Protocol Schema](../packages/protocol/src/command-envelope.ts)、[Content Schema](../apps/server/src/infrastructure/content/schema.ts)／[加载](../apps/server/src/infrastructure/content/load-content.ts)、[Kernel ports](../apps/server/src/kernel/public.ts)、[确定性测试支撑](../apps/server/test/support/fake-clock.ts)与[导入边界](../.dependency-cruiser.cjs) | backlog #6：command registry、actor scope、Idempotency Store 和 scope runtime |
 | M1–M7 | 未开始 | — | 先满足前一里程碑退出门槛 |
 
-M0 尚未达到退出门槛：数据库、migration 与内容加载 readiness 已接入；FakeClock／RandomSource、故障注入 seam、完整导入边界和架构契约测试仍待实现。backlog #4 完成不代表 M0 完成；当前空记录 manifest 只证明 Schema／加载门禁，不代表真实内容或 `NS-CONTENT-01` 已完成。
+M0 尚未达到退出门槛：数据库、migration、内容加载 readiness、FakeClock／RandomSource 和完整导入边界已接入；故障注入 seam 与命令管线架构契约测试仍待 backlog #6 基于真实事务／执行阶段实现。backlog #5 完成不代表 M0 完成；当前空记录 manifest 只证明 Schema／加载门禁，不代表真实内容或 `NS-CONTENT-01` 已完成。
 
 ### 1.2 起点
 
@@ -413,7 +413,7 @@ M0 工程基座
 
 ### M0：工程与设计基线
 
-> 当前状态：**进行中**。backlog #1–#4 已完成，并已建立基础 format／lint／typecheck／test／CI、PostgreSQL 空库迁移、公共 CommandEnvelope、Content Schema 外壳，以及数据库／内容组合 readiness；以下交付与退出门槛仍按完整 M0 口径验收。
+> 当前状态：**进行中**。backlog #1–#5 已完成，并已建立基础 format／lint／typecheck／test／CI、PostgreSQL 空库迁移、公共 CommandEnvelope、Content Schema 外壳、数据库／内容组合 readiness、确定性 Clock／RandomSource，以及可执行的模块导入边界；以下交付与退出门槛仍按完整 M0 口径验收。
 
 交付：
 
@@ -690,7 +690,7 @@ Bug 修复流程：最小复现 → 确认状态所有者／故障窗口 → 修
 2. [x] 建立 npm workspace、固定 Node／lockfile、server／web／protocol 构建（`b109146` workspace 脚手架）；
 3. [x] 建立 PostgreSQL Compose、第一条迁移、liveness／readiness（[`compose.yaml`](../compose.yaml)、[`0001_database_baseline.sql`](../apps/server/migrations/0001_database_baseline.sql)、[`create-app.ts`](../apps/server/src/gateway/http/create-app.ts)）；
 4. [x] 建立 Protocol 与 Content Schema、稳定 ID 和 `content_version`（[`CommandEnvelope`](../packages/protocol/src/command-envelope.ts)、[`Content Schema`](../apps/server/src/infrastructure/content/schema.ts)、[`manifest`](../content/northshire-v1/manifest.json) 与[内容 readiness](../apps/server/src/infrastructure/content/content-readiness.ts)）；
-5. [ ] 建立 Kernel、FakeClock、RandomSource 和模块导入边界；
+5. [x] 建立 Kernel、FakeClock、RandomSource 和模块导入边界（[`Kernel ports`](../apps/server/src/kernel/public.ts)、[`FakeClock`](../apps/server/test/support/fake-clock.ts)、[`seeded RandomSource`](../apps/server/src/infrastructure/random/seeded-random-source.ts)、[`dependency-cruiser`](../.dependency-cruiser.cjs) 与[负向契约测试](../apps/server/test/architecture-boundaries.test.ts)）；
 6. [ ] 实现 command registry、actor scope、Idempotency Store 和 scope runtime；
 7. [ ] 实现预置账号、角色创建、唯一 CharacterState 和控制权接管；
 8. [ ] 用真实 Web 客户端跑通 `look → go → reconnect`；
