@@ -5,7 +5,7 @@ import {
   type ContentVersion,
   isContentId,
   isContentVersion,
-} from "../../kernel/content-id.js";
+} from "../../kernel/public.js";
 
 export const canonicalStatusSchema = z.enum(["original", "adapted", "new"]);
 
